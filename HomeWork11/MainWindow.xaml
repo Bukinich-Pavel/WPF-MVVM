@@ -1,0 +1,87 @@
+﻿<Window x:Class="HomeWork11.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HomeWork11"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <WrapPanel Grid.Row="0" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <Button Command="{Binding ViewParentDepartament}" Margin="10" FontSize="16">Верхний департамент</Button>
+            <Button Command="{Binding AddDepartament}" Margin="10" FontSize="16">Добавить департамент</Button>
+            <Button Command="{Binding RemoveDepartament}" CommandParameter="{Binding SelectedDepartament}" Margin="10" FontSize="16">Удалить департамент</Button>
+            <Button Command="{Binding RemoveWorker}" CommandParameter="{Binding SelectedWorker}" Margin="10" FontSize="16">Удалить сотрудника</Button>
+        </WrapPanel>
+
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding DepartamentsView}" SelectedItem="{Binding SelectedDepartament}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction
+                        Command="{Binding DoubleCommand}"
+                        CommandParameter="{Binding SelectedDepartament}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path= NameDepartament}" />
+                        <!--<TextBlock Text="{Binding Path=DepartamentId}" />
+                            <TextBlock Text="{Binding Path=Id}" />-->
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <GridSplitter Grid.Column="1"
+                      Grid.Row="1"
+                      Width="3"
+                      ShowsPreview="False"  
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Stretch" />
+
+        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding WorkersView}" SelectedItem="{Binding SelectedWorker}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=NameWorker}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="3" Grid.Row="1">
+            <StackPanel DataContext="{Binding SelectedDepartament}">
+                <TextBlock Text="Выбранный департамент" FontSize="16" HorizontalAlignment="Center"  />
+                <TextBlock Text="Имя департаента" />
+                <TextBox Text="{Binding NameDepartament, UpdateSourceTrigger=PropertyChanged}" />
+                <!--<TextBlock Text="Id родительского департамента" />
+            <TextBox Text="{Binding DepartamentParentId, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Id департаента" />
+            <TextBox Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" />-->
+            </StackPanel>
+            <StackPanel DataContext="{Binding SelectedWorker}" Margin="0,30,0,0">
+                <TextBlock Text="Выбранный сотрудник" FontSize="16" HorizontalAlignment="Center" />
+                <TextBlock Text="Имя сотрудника" />
+                <TextBox Text="{Binding NameWorker, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Должность сотрудника" />
+                <TextBox Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Зарплата сотрудника" />
+                <TextBlock Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HomeWork11
+{
+    abstract class Worker: INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+
+        public int Id { get; set; }
+
+
+        private string nameWorker;
+        public string NameWorker
+        {
+            get { return nameWorker; }
+            set
+            {
+                nameWorker = value;
+                OnPropertyChanged("NameWorker");
+            }
+
+        }
+
+
+        private int departamentId;
+        public int DepartamentId
+        {
+            get { return departamentId; }
+            set
+            {
+                departamentId = value;
+                OnPropertyChanged("DepartamentId");
+            }
+        }
+
+
+        private int salary;
+        public int Salary
+        {
+            get { return salary; }
+            set
+            {
+                salary = value;
+                OnPropertyChanged("Salary");
+            }
+        }
+
+    }
+}
