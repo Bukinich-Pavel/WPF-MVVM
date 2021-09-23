@@ -1,4 +1,5 @@
 ﻿using HomeWork11.Models;
+using HomeWork11.View;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,8 @@ namespace HomeWork11.ViewModel
                     {
                         if (item.DepartamentParentId == -1) DepartamentsView.Add(item);
                     }
+
+                    WorkersView = Workers;
                 }));
             }
         }
@@ -105,40 +108,57 @@ namespace HomeWork11.ViewModel
         // команда добавления департамента
         private RelayCommand addDepartament;
         public RelayCommand AddDepartament
+        {
+            get
             {
-                get
-                {
-                    return addDepartament ??
-                        (addDepartament = new RelayCommand(obj =>
-                        {
-                            AddDepartament addDepartament = new AddDepartament();
-                            addDepartament.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
-                            addDepartament.ShowDialog();
+                return addDepartament ??
+                    (addDepartament = new RelayCommand(obj =>
+                    {
+                        AddDepartament addDepartament = new AddDepartament();
+                        addDepartament.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
+                        addDepartament.ShowDialog();
 
                             // получает имя и выбранный родительский департамент
                             string nameSelectedDepartament = ((NewDepViewModel)addDepartament.DataContext).SelectedDepartament;
-                            string nameNewDepartament = addDepartament.NameDepartament;
+                        string nameNewDepartament = addDepartament.NameDepartament;
 
                             // получает Id выбраного департамента
                             int idSelectDepartament = GetIdSelectedDepartament(nameSelectedDepartament);
 
-                            if (Departament.NameAllDepartaments.IndexOf(nameNewDepartament) == -1 )
+                        if (Departament.NameAllDepartaments.IndexOf(nameNewDepartament) == -1)
+                        {
+                            Departament departament = new Departament(++Departament.IdMax, nameNewDepartament, idSelectDepartament);
+                            if (departament.NameDepartament != "")
                             {
-                                Departament departament = new Departament(++Departament.IdMax, nameNewDepartament, idSelectDepartament);
-                                if (departament.NameDepartament != "")
-                                {
-                                    Departaments.Add(departament);
-                                    Departament.GetDepartament(departament);
+                                Departaments.Add(departament);
+                                Departament.GetDepartament(departament);
                                     //DepartamentsView.Add(departament);
                                 }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Департамент с таким именем уже есть");
-                            }
-                        }));
-                }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Департамент с таким именем уже есть");
+                        }
+                    }));
             }
+        }
+
+
+        // команда добавления сотрудника
+        private RelayCommand addWorker;
+        public RelayCommand AddWorker
+        {
+            get
+            {
+                return addWorker ?? (addDepartament = new RelayCommand(obg => 
+                {
+                    AddWorker addWorker = new AddWorker();
+                    addWorker.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
+                    addWorker.ShowDialog();
+                }));
+            }
+        }
+
 
 
         // команда удаления департамента
@@ -258,6 +278,26 @@ namespace HomeWork11.ViewModel
         {
             string json = JsonConvert.SerializeObject(Departaments);
             File.WriteAllText("departaments.json", json);
+
+
+            Interns = new ObservableCollection<Intern> { };
+            Managers = new ObservableCollection<Manager> { };
+            foreach (var item in Workers)
+            {
+                if (item is Intern)
+                {
+                    Interns.Add(item as Intern);
+                }
+                else if (item is Manager)
+                {
+                    Managers.Add(item as Manager);
+                }
+            }
+            json = JsonConvert.SerializeObject(Interns);
+            File.WriteAllText("interns.json", json);
+
+            json = JsonConvert.SerializeObject(Managers);
+            File.WriteAllText("managers.json", json);
         }
 
 

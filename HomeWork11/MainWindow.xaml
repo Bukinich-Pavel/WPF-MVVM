@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HomeWork11"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="950" MinWidth="950" MinHeight="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -23,6 +23,7 @@
             <Button Command="{Binding ViewParentDepartament}" Margin="10" FontSize="16">Верхний департамент</Button>
             <Button Command="{Binding AddDepartament}" Margin="10" FontSize="16">Добавить департамент</Button>
             <Button Command="{Binding RemoveDepartament}" CommandParameter="{Binding SelectedDepartament}" Margin="10" FontSize="16">Удалить департамент</Button>
+            <Button Command="{Binding AddWorker}" Margin="10" FontSize="16">Добавить сотрудника</Button>
             <Button Command="{Binding RemoveWorker}" CommandParameter="{Binding SelectedWorker}" Margin="10" FontSize="16">Удалить сотрудника</Button>
         </WrapPanel>
 
@@ -77,9 +78,9 @@
                 <TextBlock Text="Имя сотрудника" />
                 <TextBox Text="{Binding NameWorker, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="Должность сотрудника" />
-                <TextBox Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="Зарплата сотрудника" />
-                <TextBlock Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </StackPanel>
 

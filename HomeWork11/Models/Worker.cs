@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork11
 {
-    abstract class Worker: INotifyPropertyChanged
+    abstract class Worker : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
@@ -18,7 +18,7 @@ namespace HomeWork11
 
 
         public int Id { get; set; }
-
+        public virtual string Position { get; }
 
         private string nameWorker;
         public string NameWorker

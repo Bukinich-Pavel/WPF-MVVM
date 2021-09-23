@@ -1,1 +1,1 @@
-[{"Id":1,"NameWorker":"Boss","DepartamentId":1},{"NumberHours":168,"CostOfAnHour":10,"Id":2,"NameWorker":"Spec1","DepartamentId":1},{"NumberHours":168,"CostOfAnHour":10,"Id":3,"NameWorker":"Spec2","DepartamentId":1},{"InternSalary":500,"Id":4,"NameWorker":"Intern1","DepartamentId":1}]
+[{"Position":"Стажер","Id":3,"NameWorker":"Интерн1","DepartamentId":1,"Salary":100},{"Position":"Стажер","Id":3,"NameWorker":"Интерн2","DepartamentId":4,"Salary":150},{"Position":"Менеджер","Salary":1300,"Id":4,"NameWorker":"Босc","DepartamentId":1}]

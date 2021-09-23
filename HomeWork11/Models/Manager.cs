@@ -13,20 +13,37 @@ namespace HomeWork11
 {
     class Manager : Worker
     {
+        public override string Position
+        {
+            get
+            {
+                if (this is Manager)
+                {
+                    return "Менеджер";
+                }
+                return "";
+            }
+        }
+
+
         private int salary;
         public new int Salary
         {
             get
             {
                 GetAllSalary();
-                return salary;
+                return salary > 1300 ? salary : 1300;
+            }
+            set
+            {
+                
             }
         }
+
 
         public void GetAllSalary()
         {
             salary = 0;
-            //var selectedDepartaments = Departament.AllDepartaments.Where(u => u.Id == this.DepartamentId);
             foreach (var item in Departament.AllDepartaments)
             {
                 if (item.Id == this.DepartamentId)

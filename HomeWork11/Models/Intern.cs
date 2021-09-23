@@ -10,6 +10,16 @@ namespace HomeWork11
 {
     class Intern : Worker
     {
-
+        public override string Position
+        {
+            get
+            {
+                if (this is Intern)
+                {
+                    return "Стажер";
+                }
+                return "";
+            }
+        }
     }
 }

@@ -1,1 +1,1 @@
-[{"Salary":100,"Id":3,"NameWorker":"Интерн1","DepartamentId":1},{"Salary":150,"Id":3,"NameWorker":"Интерн2","DepartamentId":2}]
+[{"Position":"Стажер","Id":3,"NameWorker":"Интерн1","DepartamentId":1,"Salary":1000},{"Position":"Стажер","Id":3,"NameWorker":"Интерн2","DepartamentId":4,"Salary":1500}]
