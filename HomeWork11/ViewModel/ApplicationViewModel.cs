@@ -158,9 +158,65 @@ namespace HomeWork11.ViewModel
                     addWorker.ListPosition = namePosition;
                     addWorker.ShowDialog();
 
-                    string nameNewWorker = addWorker.nameWorker.Text;
-                    string nameSelectedDepartament = addWorker.listDepartament.SelectedItem.ToString();
-                    string nameSelectedPotision = addWorker.listPosition.SelectedItem.ToString();
+                    string nameNewWorker, nameSelectedDepartament, nameSelectedPotision;
+                    int idSelectDepartament, priceHour, numberOfHours, salary;
+                    try
+                    {
+                        // получение имени сотрудника, имени департамента и позиции
+                        nameNewWorker = addWorker.nameWorker.Text;
+                        nameSelectedDepartament = addWorker.listDepartament.SelectedItem.ToString();
+                        nameSelectedPotision = addWorker.listPosition.SelectedItem.ToString();
+
+                        // получает Id выбраного департамента
+                        idSelectDepartament = GetIdSelectedDepartament(nameSelectedDepartament);
+
+
+                        switch (nameSelectedPotision)
+                        {
+                            case "Менеджер":
+                                Manager manager = new Manager
+                                {
+                                    Id = ++Worker.IdMax,
+                                    DepartamentId = idSelectDepartament,
+                                    NameWorker = nameNewWorker
+                                };
+                                Workers.Add(manager);
+                                break;
+                            case "Специалист":
+                                // получает количество часов работы и ставку
+                                priceHour = Convert.ToInt32(addWorker.priceHour);
+                                numberOfHours = Convert.ToInt32(addWorker.numberOfHours);
+                                Specialist specialist = new Specialist
+                                {
+                                    Id = ++Worker.IdMax,
+                                    DepartamentId = idSelectDepartament,
+                                    NameWorker = nameNewWorker,
+                                    NumberHours = numberOfHours,
+                                    CostOfAnHour = priceHour
+                                };
+                                Workers.Add(specialist);
+                                break;
+                            case "Стажер":
+                                var r = addWorker.salary.Text;
+                                salary = Convert.ToInt32(addWorker.salary.Text);
+                                Intern intern = new Intern
+                                {
+                                    Id = ++Worker.IdMax,
+                                    DepartamentId = idSelectDepartament,
+                                    NameWorker = nameNewWorker,
+                                    Salary = salary
+                                };
+                                Workers.Add(intern);
+                                break;
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        MessageBox.Show("Неверный ввод!");
+                        return;
+                    }
+
                     //ТУТ
                 }));
             }
@@ -260,18 +316,19 @@ namespace HomeWork11.ViewModel
                 foreach (var item in Interns)
                 {
                     Workers.Add(item);
+                    Worker.GetMaxId(item);
                 }
-
 
                 str = File.ReadAllText("managers.json");
                 Managers = JsonConvert.DeserializeObject<ObservableCollection<Manager>>(str);
                 foreach (var item in Managers)
                 {
                     Workers.Add(item);
+                    Worker.GetMaxId(item);
                 }
 
                 WorkersView = Workers;
-
+                MessageBox.Show(Worker.IdMax.ToString());
             }
             else
             {

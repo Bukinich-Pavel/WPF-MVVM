@@ -34,10 +34,7 @@ namespace HomeWork11
                 GetAllSalary();
                 return salary > 1300 ? salary : 1300;
             }
-            set
-            {
-                
-            }
+            set { }
         }
 
 

@@ -10,12 +10,11 @@ namespace HomeWork11
 {
     abstract class Worker : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        public static int IdMax = 0;
+        public static void GetMaxId(Worker dp)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            IdMax = IdMax < dp.Id ? dp.Id : IdMax;
         }
-
 
         public int Id { get; set; }
         public virtual string Position { get; }
@@ -55,6 +54,15 @@ namespace HomeWork11
                 OnPropertyChanged("Salary");
             }
         }
+
+
+        #region реализация INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+        #endregion
 
     }
 }

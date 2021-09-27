@@ -41,15 +41,15 @@
         <StackPanel Orientation="Horizontal" Grid.Row="4">
             <StackPanel x:Name="Salary" Width="150" Margin="10" Visibility="Hidden">
                 <TextBlock Text="Зарплата" FontSize="18" HorizontalAlignment="Center"/>
-                <TextBox />
+                <TextBox x:Name="salary" />
             </StackPanel>
             <StackPanel x:Name="PriceHour" Width="150" Margin="10" Visibility="Hidden">
                 <TextBlock Text="Оплата за час" FontSize="18" HorizontalAlignment="Center"/>
-                <TextBox />
+                <TextBox x:Name="priceHour"/>
             </StackPanel>
             <StackPanel x:Name="NumberOfHours" Width="150" Margin="10" Visibility="Hidden">
                 <TextBlock Text="Количество часов" FontSize="18" HorizontalAlignment="Center"/>
-                <TextBox />
+                <TextBox x:Name="numberOfHours"/>
             </StackPanel>
         </StackPanel>
 
