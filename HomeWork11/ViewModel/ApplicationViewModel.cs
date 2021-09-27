@@ -118,12 +118,12 @@ namespace HomeWork11.ViewModel
                         addDepartament.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
                         addDepartament.ShowDialog();
 
-                            // получает имя и выбранный родительский департамент
-                            string nameSelectedDepartament = ((NewDepViewModel)addDepartament.DataContext).SelectedDepartament;
+                        // получает имя и выбранный родительский департамент
+                        string nameSelectedDepartament = ((DepartViewModel)addDepartament.DataContext).SelectedDepartament;
                         string nameNewDepartament = addDepartament.NameDepartament;
 
-                            // получает Id выбраного департамента
-                            int idSelectDepartament = GetIdSelectedDepartament(nameSelectedDepartament);
+                        // получает Id выбраного департамента
+                        int idSelectDepartament = GetIdSelectedDepartament(nameSelectedDepartament);
 
                         if (Departament.NameAllDepartaments.IndexOf(nameNewDepartament) == -1)
                         {
@@ -132,8 +132,8 @@ namespace HomeWork11.ViewModel
                             {
                                 Departaments.Add(departament);
                                 Departament.GetDepartament(departament);
-                                    //DepartamentsView.Add(departament);
-                                }
+                                //DepartamentsView.Add(departament);
+                            }
                         }
                         else
                         {
@@ -150,11 +150,18 @@ namespace HomeWork11.ViewModel
         {
             get
             {
-                return addWorker ?? (addDepartament = new RelayCommand(obg => 
+                return addWorker ?? (addWorker = new RelayCommand(obg => 
                 {
                     AddWorker addWorker = new AddWorker();
                     addWorker.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
+                    ObservableCollection<string> namePosition = new ObservableCollection<string> { "Менеджер", "Специалист", "Стажер" };
+                    addWorker.ListPosition = namePosition;
                     addWorker.ShowDialog();
+
+                    string nameNewWorker = addWorker.nameWorker.Text;
+                    string nameSelectedDepartament = addWorker.listDepartament.SelectedItem.ToString();
+                    string nameSelectedPotision = addWorker.listPosition.SelectedItem.ToString();
+                    //ТУТ
                 }));
             }
         }

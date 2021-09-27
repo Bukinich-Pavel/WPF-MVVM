@@ -5,11 +5,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace HomeWork11.ViewModel
 {
-    class NewDepViewModel : INotifyPropertyChanged
+    class WorkerViewModel : INotifyPropertyChanged
     {
         private string selecteddepartament;
         public string SelectedDepartament
@@ -19,6 +18,18 @@ namespace HomeWork11.ViewModel
             {
                 selecteddepartament = value;
                 OnPropertyChanged("SelectedDepartament");
+            }
+        }
+
+
+        private string selectedPosition;
+        public string SelectedPosition
+        {
+            get { return selectedPosition; }
+            set
+            {
+                selectedPosition = value;
+                OnPropertyChanged("SelectedPosition");
             }
         }
 

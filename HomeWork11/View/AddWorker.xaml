@@ -35,9 +35,23 @@
 
         <StackPanel Grid.Row="3">
             <TextBlock Text="Должность" FontSize="18"/>
-            <ComboBox Name="listPosition" FontSize="18" SelectedItem="{Binding SelectedPosition}" />
+            <ComboBox Name="listPosition" FontSize="18" SelectedItem="{Binding SelectedPosition}" SelectionChanged="listPosition_SelectionChanged" />
         </StackPanel>
 
+        <StackPanel Orientation="Horizontal" Grid.Row="4">
+            <StackPanel x:Name="Salary" Width="150" Margin="10" Visibility="Hidden">
+                <TextBlock Text="Зарплата" FontSize="18" HorizontalAlignment="Center"/>
+                <TextBox />
+            </StackPanel>
+            <StackPanel x:Name="PriceHour" Width="150" Margin="10" Visibility="Hidden">
+                <TextBlock Text="Оплата за час" FontSize="18" HorizontalAlignment="Center"/>
+                <TextBox />
+            </StackPanel>
+            <StackPanel x:Name="NumberOfHours" Width="150" Margin="10" Visibility="Hidden">
+                <TextBlock Text="Количество часов" FontSize="18" HorizontalAlignment="Center"/>
+                <TextBox />
+            </StackPanel>
+        </StackPanel>
 
         <WrapPanel Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Margin="10" FontSize="18" IsDefault="True" Click="Accept_Click">Сохранить</Button>

@@ -64,7 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\NewDepViewModel.cs" />
+    <Compile Include="ViewModel\DepartViewModel.cs" />
+    <Compile Include="ViewModel\WorkerViewModel.cs" />
     <Compile Include="View\AddDepartament.xaml.cs">
       <DependentUpon>AddDepartament.xaml</DependentUpon>
     </Compile>
