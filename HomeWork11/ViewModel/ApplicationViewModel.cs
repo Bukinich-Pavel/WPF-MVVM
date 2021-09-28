@@ -184,8 +184,8 @@ namespace HomeWork11.ViewModel
                                 break;
                             case "Специалист":
                                 // получает количество часов работы и ставку
-                                priceHour = Convert.ToInt32(addWorker.priceHour);
-                                numberOfHours = Convert.ToInt32(addWorker.numberOfHours);
+                                priceHour = Convert.ToInt32(addWorker.priceHour.Text);
+                                numberOfHours = Convert.ToInt32(addWorker.numberOfHours.Text);
                                 Specialist specialist = new Specialist
                                 {
                                     Id = ++Worker.IdMax,
@@ -209,6 +209,7 @@ namespace HomeWork11.ViewModel
                                 Workers.Add(intern);
                                 break;
                         }
+
                     }
                     catch (Exception)
                     {
@@ -327,6 +328,14 @@ namespace HomeWork11.ViewModel
                     Worker.GetMaxId(item);
                 }
 
+                str = File.ReadAllText("specialists.json");
+                Specialists = JsonConvert.DeserializeObject<ObservableCollection<Specialist>>(str);
+                foreach (var item in Specialists)
+                {
+                    Workers.Add(item);
+                    Worker.GetMaxId(item);
+                }
+
                 WorkersView = Workers;
                 MessageBox.Show(Worker.IdMax.ToString());
             }
@@ -346,6 +355,7 @@ namespace HomeWork11.ViewModel
 
             Interns = new ObservableCollection<Intern> { };
             Managers = new ObservableCollection<Manager> { };
+            Specialists = new ObservableCollection<Specialist> { };
             foreach (var item in Workers)
             {
                 if (item is Intern)
@@ -356,9 +366,16 @@ namespace HomeWork11.ViewModel
                 {
                     Managers.Add(item as Manager);
                 }
+                else if(item is Specialist)
+                {
+                    Specialists.Add(item as Specialist);
+                }
             }
             json = JsonConvert.SerializeObject(Interns);
             File.WriteAllText("interns.json", json);
+
+            json = JsonConvert.SerializeObject(Specialists);
+            File.WriteAllText("specialists.json", json);
 
             json = JsonConvert.SerializeObject(Managers);
             File.WriteAllText("managers.json", json);

@@ -39,13 +39,15 @@ namespace HomeWork11.Models
         private int salary;
         public new int Salary
         {
-            get { return salary; }
-            private set
+            get { return numberHours * costOfAnHour; }
+            set
             {
                 salary = numberHours * costOfAnHour;
                 OnPropertyChanged("Salary");
             }
         }
+
+
 
     }
 }
