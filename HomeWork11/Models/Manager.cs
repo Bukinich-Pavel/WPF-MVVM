@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HomeWork11.ViewModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,7 +53,13 @@ namespace HomeWork11
 
         private void GetSalaryAllDepartament(Departament departament)
         {
-            List<Worker> wr = GetWorkersDepartament(departament);
+            ObservableCollection<Worker> Workers = ApplicationViewModel.Workers; //+
+            List<Worker> wr = new List<Worker>() { };
+            foreach (var item in Workers)
+            {
+                if (item.DepartamentId == departament.Id) wr.Add(item);
+            }
+
             foreach (var item in wr)
             {
                 salary += item.Salary;
@@ -76,31 +83,5 @@ namespace HomeWork11
 
         }
 
-        private static List<Worker> GetWorkersDepartament(Departament departament)
-        {
-            List<Worker> Workers = new List<Worker> { };
-
-            string str = File.ReadAllText("interns.json");
-            List<Intern> Interns = JsonConvert.DeserializeObject<List<Intern>>(str);
-            foreach (var item in Interns)
-            {
-                Workers.Add(item);
-            }
-
-            str = File.ReadAllText("managers.json");
-            List<Manager> Managers = JsonConvert.DeserializeObject<List<Manager>>(str);
-            foreach (var item in Managers)
-            {
-                Workers.Add(item);
-            }
-
-            List<Worker> wr = new List<Worker>() { };
-            foreach (var item in Workers)
-            {
-                if (item.DepartamentId == departament.Id) wr.Add(item);
-            }
-
-            return wr;
-        }
     }
 }

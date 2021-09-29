@@ -10,6 +10,19 @@ namespace HomeWork11.Models
 {
     class Specialist : Worker
     {
+        public override string Position
+        {
+            get
+            {
+                if (this is Specialist)
+                {
+                    return "Специалист";
+                }
+                return "";
+            }
+        }
+
+
         int numberHours;
         public int NumberHours
         {

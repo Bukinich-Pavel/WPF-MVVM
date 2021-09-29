@@ -50,7 +50,7 @@ namespace HomeWork11.ViewModel
         }
 
 
-        public ObservableCollection<Worker> Workers { get; set; }
+        public static ObservableCollection<Worker> Workers { get; set; }
         public ObservableCollection<Intern> Interns { get; set; }
         public ObservableCollection<Specialist> Specialists { get; set; }
         public ObservableCollection<Manager> Managers { get; set; }
@@ -119,7 +119,7 @@ namespace HomeWork11.ViewModel
                         addDepartament.ShowDialog();
 
                         // получает имя и выбранный родительский департамент
-                        string nameSelectedDepartament = ((DepartViewModel)addDepartament.DataContext).SelectedDepartament;
+                        string nameSelectedDepartament = addDepartament.listDepartament.SelectedItem.ToString();
                         string nameNewDepartament = addDepartament.NameDepartament;
 
                         // получает Id выбраного департамента
@@ -224,7 +224,6 @@ namespace HomeWork11.ViewModel
         }
 
 
-
         // команда удаления департамента
         private RelayCommand removeDepartament;
         public RelayCommand RemoveDepartament
@@ -278,12 +277,13 @@ namespace HomeWork11.ViewModel
                 return doubleCommand ?? (doubleCommand = new RelayCommand(obj =>
                 {
                     Departament departament = obj as Departament;
+                    if (departament == null) return;
+
                     DepartamentsView = new ObservableCollection<Departament> { };
                     foreach (var item in Departament.AllDepartaments)
                     {
                         if (item.DepartamentParentId == departament.Id) DepartamentsView.Add(item);
                     }
-
                 }));
             }
         }
@@ -336,8 +336,6 @@ namespace HomeWork11.ViewModel
                     Worker.GetMaxId(item);
                 }
 
-                WorkersView = Workers;
-                MessageBox.Show(Worker.IdMax.ToString());
             }
             else
             {

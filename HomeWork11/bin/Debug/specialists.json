@@ -1,1 +1,1 @@
-[{"NumberHours":168,"CostOfAnHour":15,"Salary":2520,"Id":6,"Position":null,"NameWorker":"Специалистик","DepartamentId":4}]
+[{"Position":"Специалист","NumberHours":168,"CostOfAnHour":15,"Salary":2520,"Id":6,"NameWorker":"Специалистик","DepartamentId":4}]
