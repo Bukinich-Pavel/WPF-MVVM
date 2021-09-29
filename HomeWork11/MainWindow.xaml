@@ -76,9 +76,9 @@
             <StackPanel DataContext="{Binding SelectedWorker}" Margin="0,30,0,0">
                 <TextBlock Text="Выбранный сотрудник" FontSize="16" HorizontalAlignment="Center" />
                 <TextBlock Text="Имя сотрудника" />
-                <TextBox Text="{Binding NameWorker, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding NameWorker, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20" />
                 <TextBlock Text="Должность сотрудника" />
-                <TextBlock Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="{Binding Position, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20" />
                 <TextBlock Text="Зарплата сотрудника" />
                 <TextBox Text="{Binding Salary, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>

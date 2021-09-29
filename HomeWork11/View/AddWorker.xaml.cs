@@ -25,7 +25,6 @@ namespace HomeWork11.View
         public AddWorker()
         {
             InitializeComponent();
-            DataContext = new WorkerViewModel();
         }
         private void Accept_Click(object sender, RoutedEventArgs e)
         {

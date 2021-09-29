@@ -336,6 +336,7 @@ namespace HomeWork11.ViewModel
                     Worker.GetMaxId(item);
                 }
 
+                WorkersView = Workers;
             }
             else
             {

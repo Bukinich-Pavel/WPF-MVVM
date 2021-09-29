@@ -24,7 +24,6 @@ namespace HomeWork11
         public AddDepartament()
         {
             InitializeComponent();
-            DataContext = new DepartViewModel();
         }
 
         private void Accept_Click(object sender, RoutedEventArgs e)

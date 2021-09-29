@@ -62,7 +62,8 @@ namespace HomeWork11
 
             foreach (var item in wr)
             {
-                salary += item.Salary;
+                salary += (int)(item.Salary*0.15);
+                
             }
 
             List<Departament> dp = new List<Departament>() { };
