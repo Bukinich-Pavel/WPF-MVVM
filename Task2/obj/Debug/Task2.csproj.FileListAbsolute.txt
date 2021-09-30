@@ -1,0 +1,7 @@
+C:\Users\Ксения\source\repos\HomeWork11\Task2\bin\Debug\Task2.exe.config
+C:\Users\Ксения\source\repos\HomeWork11\Task2\bin\Debug\Task2.exe
+C:\Users\Ксения\source\repos\HomeWork11\Task2\bin\Debug\Task2.pdb
+C:\Users\Ксения\source\repos\HomeWork11\Task2\obj\Debug\Task2.csprojAssemblyReference.cache
+C:\Users\Ксения\source\repos\HomeWork11\Task2\obj\Debug\Task2.csproj.CoreCompileInputs.cache
+C:\Users\Ксения\source\repos\HomeWork11\Task2\obj\Debug\Task2.exe
+C:\Users\Ксения\source\repos\HomeWork11\Task2\obj\Debug\Task2.pdb
