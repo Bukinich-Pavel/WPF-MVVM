@@ -55,6 +55,7 @@ namespace HomeWork11.ViewModel
         public ObservableCollection<Specialist> Specialists { get; set; }
         public ObservableCollection<Manager> Managers { get; set; }
         public ObservableCollection<Departament> Departaments { get; set; }
+        public ObservableCollection<Departament> DepartamentsTreeView { get; set; }
 
 
         // сотрудники отображенные в ListBox
@@ -132,7 +133,14 @@ namespace HomeWork11.ViewModel
                             {
                                 Departaments.Add(departament);
                                 Departament.GetDepartament(departament);
-                                //DepartamentsView.Add(departament);
+                                foreach (var item in Departament.AllDepartaments)
+                                {
+                                    if (item.Id == departament.DepartamentParentId)
+                                    {
+                                        if (item.Departaments == null) item.Departaments = new ObservableCollection<Departament>();
+                                        item.Departaments.Add(departament);
+                                    }
+                                }
                             }
                         }
                         else
@@ -288,6 +296,22 @@ namespace HomeWork11.ViewModel
             }
         }
 
+        // команда SelectItem TreeView 
+        private RelayCommand treeViewCommand;
+        public RelayCommand TreeViewCommand
+        {
+            get
+            {
+                return treeViewCommand ?? (treeViewCommand = new RelayCommand(obj =>
+                {
+                    Departament departament = obj as Departament;
+                    if (departament == null) return;
+
+                    SelectedDepartament = departament;
+                }));
+            }
+        }
+
         #endregion
 
 
@@ -298,6 +322,10 @@ namespace HomeWork11.ViewModel
             {
                 string str = File.ReadAllText("departaments.json");
                 Departaments = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(str);
+
+                str = File.ReadAllText("departamentsTreeView.json");
+                DepartamentsTreeView = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(str);
+
 
                 DepartamentsView = new ObservableCollection<Departament> { };
                 if (Departaments != null)
@@ -378,6 +406,14 @@ namespace HomeWork11.ViewModel
 
             json = JsonConvert.SerializeObject(Managers);
             File.WriteAllText("managers.json", json);
+
+
+            #region treeview
+
+            json = JsonConvert.SerializeObject(DepartamentsTreeView);
+            File.WriteAllText("departamentsTreeView.json", json);
+
+            #endregion
         }
 
 

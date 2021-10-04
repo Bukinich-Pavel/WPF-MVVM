@@ -10,7 +10,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -45,6 +46,22 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+       
+        <TreeView x:Name="treeViewDepart" Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Path=DepartamentsTreeView}" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction
+                        Command="{Binding TreeViewCommand}"
+                        CommandParameter="{Binding ElementName=treeViewDepart,Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Departaments}">
+                    <TextBlock Text="{Binding NameDepartament}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
         
         <GridSplitter Grid.Column="1"
                       Grid.Row="1"
@@ -53,7 +70,7 @@
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Stretch" />
 
-        <ListBox Grid.Column="2" Grid.Row="1" ItemsSource="{Binding WorkersView}" SelectedItem="{Binding SelectedWorker}">
+        <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" ItemsSource="{Binding WorkersView}" SelectedItem="{Binding SelectedWorker}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
@@ -63,7 +80,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="3" Grid.Row="1">
+        <StackPanel Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" >
             <StackPanel DataContext="{Binding SelectedDepartament}">
                 <TextBlock Text="Выбранный департамент" FontSize="16" HorizontalAlignment="Center"  />
                 <TextBlock Text="Имя департаента" />

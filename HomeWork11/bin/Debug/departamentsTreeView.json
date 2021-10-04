@@ -1,0 +1,33 @@
+[
+  {
+    "Id": 1,
+    "NameDepartament": "Департамент1",
+    "ManagerId": 0,
+    "DepartamentParentId": -1,
+    "Departaments": [
+      {
+        "Id": 3,
+        "NameDepartament": "Департамент3",
+        "ManagerId": 0,
+        "DepartamentParentId": 1,
+        "Departaments": [
+          {
+            "Id": 5,
+            "NameDepartament": "Департамент31",
+            "ManagerId": 0,
+            "DepartamentParentId": 3,
+            "Departaments": null
+          }
+        ]
+      },
+      
+      {
+        "Id": 4,
+        "NameDepartament": "Департамент2",
+        "ManagerId": 0,
+        "DepartamentParentId": 1,
+        "Departaments": null
+      }
+    ]
+  }
+]
