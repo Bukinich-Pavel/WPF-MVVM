@@ -38,7 +38,7 @@ namespace HomeWork11.ViewModel
             {
                 selecteddepartament = value;
                 WorkersView = new ObservableCollection<Worker>() { };
-                if(value != null)
+                if (value != null)
                 {
                     foreach (var item in Workers)
                     {
@@ -54,8 +54,20 @@ namespace HomeWork11.ViewModel
         public ObservableCollection<Intern> Interns { get; set; }
         public ObservableCollection<Specialist> Specialists { get; set; }
         public ObservableCollection<Manager> Managers { get; set; }
-        public ObservableCollection<Departament> Departaments { get; set; }
-        public ObservableCollection<Departament> DepartamentsTreeView { get; set; }
+
+
+        //public ObservableCollection<Departament> DepartamentsTreeView { get; set; }
+        private ObservableCollection<Departament> departamentsTreeView;
+        public ObservableCollection<Departament> DepartamentsTreeView
+        {
+            get { return departamentsTreeView; }
+            set
+            {
+                departamentsTreeView = value;
+                OnPropertyChanged("DepartamentsTreeView");
+
+            }
+        }
 
 
         // сотрудники отображенные в ListBox
@@ -71,18 +83,6 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // департаменты отображенные в ListBox
-        private ObservableCollection<Departament> departamentsView;
-        public ObservableCollection<Departament> DepartamentsView
-        {
-            get { return departamentsView; }
-            set
-            {
-                departamentsView = value;
-                OnPropertyChanged("DepartamentsView");
-            }
-        }
-
 
         #region Команды
 
@@ -94,12 +94,6 @@ namespace HomeWork11.ViewModel
             {
                 return viewParentDepartament ?? (viewParentDepartament = new RelayCommand(obj =>
                 {
-                    DepartamentsView = new ObservableCollection<Departament> { };
-                    foreach (var item in Departament.AllDepartaments)
-                    {
-                        if (item.DepartamentParentId == -1) DepartamentsView.Add(item);
-                    }
-
                     WorkersView = Workers;
                 }));
             }
@@ -116,11 +110,14 @@ namespace HomeWork11.ViewModel
                     (addDepartament = new RelayCommand(obj =>
                     {
                         AddDepartament addDepartament = new AddDepartament();
-                        addDepartament.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
+                        addDepartament.ListDepartament = Departament.NameAllDepartaments;
                         addDepartament.ShowDialog();
 
                         // получает имя и выбранный родительский департамент
-                        string nameSelectedDepartament = addDepartament.listDepartament.SelectedItem.ToString();
+                        var selectedItem = addDepartament.listDepartament.SelectedItem;
+                        if (selectedItem == null) return;
+                        string nameSelectedDepartament = selectedItem.ToString();
+
                         string nameNewDepartament = addDepartament.NameDepartament;
 
                         // получает Id выбраного департамента
@@ -131,16 +128,13 @@ namespace HomeWork11.ViewModel
                             Departament departament = new Departament(++Departament.IdMax, nameNewDepartament, idSelectDepartament);
                             if (departament.NameDepartament != "")
                             {
-                                Departaments.Add(departament);
-                                Departament.GetDepartament(departament);
-                                foreach (var item in Departament.AllDepartaments)
-                                {
-                                    if (item.Id == departament.DepartamentParentId)
-                                    {
-                                        if (item.Departaments == null) item.Departaments = new ObservableCollection<Departament>();
-                                        item.Departaments.Add(departament);
-                                    }
-                                }
+                                GetAllDepart(DepartamentsTreeView, departament);
+                                Departament.SetDepartament(departament);
+
+                                ////???
+                                //var r = DepartamentsTreeView;
+                                //DepartamentsTreeView = new ObservableCollection<Departament>();
+                                //DepartamentsTreeView = r;
                             }
                         }
                         else
@@ -158,7 +152,7 @@ namespace HomeWork11.ViewModel
         {
             get
             {
-                return addWorker ?? (addWorker = new RelayCommand(obg => 
+                return addWorker ?? (addWorker = new RelayCommand(obg =>
                 {
                     AddWorker addWorker = new AddWorker();
                     addWorker.ListDepartament = GetNameDepartaments(Departament.AllDepartaments);
@@ -244,13 +238,12 @@ namespace HomeWork11.ViewModel
                       Departament departament = obj as Departament;
                       if (departament != null)
                       {
-                          Departaments.Remove(departament);
-                          Departament.AllDepartaments.Remove(departament);
-                          DepartamentsView.Remove(departament);
+                          Departament.NameAllDepartaments.Remove(departament.NameDepartament);
+                          DeleteDepart(DepartamentsTreeView, departament);
                       }
-                  }, 
+                  },
                   //(obj) => Departaments.Count > 0));
-                  (obj) => Departament.AllDepartaments.Count > 0));
+                  (obj) => DepartamentsTreeView.Count > 0));
             }
         }
 
@@ -270,31 +263,11 @@ namespace HomeWork11.ViewModel
                           Workers.Remove(worker);
                           WorkersView.Remove(worker);
                       }
-                  }, 
+                  },
                   (obj) => Workers.Count > 0));
             }
         }
 
-
-        // команда отобразить вложенные департаменты 
-        private RelayCommand doubleCommand;
-        public RelayCommand DoubleCommand
-        {
-            get
-            {
-                return doubleCommand ?? (doubleCommand = new RelayCommand(obj =>
-                {
-                    Departament departament = obj as Departament;
-                    if (departament == null) return;
-
-                    DepartamentsView = new ObservableCollection<Departament> { };
-                    foreach (var item in Departament.AllDepartaments)
-                    {
-                        if (item.DepartamentParentId == departament.Id) DepartamentsView.Add(item);
-                    }
-                }));
-            }
-        }
 
         // команда SelectItem TreeView 
         private RelayCommand treeViewCommand;
@@ -320,21 +293,16 @@ namespace HomeWork11.ViewModel
         {
             if (File.Exists("departaments.json") && File.Exists("interns.json"))
             {
-                string str = File.ReadAllText("departaments.json");
-                Departaments = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(str);
-
-                str = File.ReadAllText("departamentsTreeView.json");
+                string str = File.ReadAllText("departamentsTreeView.json");
                 DepartamentsTreeView = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(str);
 
 
-                DepartamentsView = new ObservableCollection<Departament> { };
-                if (Departaments != null)
+                if (DepartamentsTreeView != null)
                 {
-                    foreach (var item in Departaments)
+                    foreach (var item in DepartamentsTreeView)
                     {
-                        if (item.DepartamentParentId == -1) DepartamentsView.Add(item);
-                        Departament.GetMaxId(item);
-                        Departament.GetDepartament(item);
+                        Departament.SetDepartament(item);
+                        //ТУТ!!!
                     }
                 }
 
@@ -370,16 +338,13 @@ namespace HomeWork11.ViewModel
             {
                 MessageBox.Show("Нет данных!");
             }
+
         }
 
 
         //деструктор
         ~ApplicationViewModel()
         {
-            string json = JsonConvert.SerializeObject(Departaments);
-            File.WriteAllText("departaments.json", json);
-
-
             Interns = new ObservableCollection<Intern> { };
             Managers = new ObservableCollection<Manager> { };
             Specialists = new ObservableCollection<Specialist> { };
@@ -393,12 +358,12 @@ namespace HomeWork11.ViewModel
                 {
                     Managers.Add(item as Manager);
                 }
-                else if(item is Specialist)
+                else if (item is Specialist)
                 {
                     Specialists.Add(item as Specialist);
                 }
             }
-            json = JsonConvert.SerializeObject(Interns);
+            string json = JsonConvert.SerializeObject(Interns);
             File.WriteAllText("interns.json", json);
 
             json = JsonConvert.SerializeObject(Specialists);
@@ -409,6 +374,13 @@ namespace HomeWork11.ViewModel
 
 
             #region treeview
+
+
+            //DepartamentsTreeView = new ObservableCollection<Departament>();
+            //foreach (var item in Departament.AllDepartaments)
+            //{
+            //    if (item.DepartamentParentId == -1) DepartamentsTreeView.Add(item);
+            //}
 
             json = JsonConvert.SerializeObject(DepartamentsTreeView);
             File.WriteAllText("departamentsTreeView.json", json);
@@ -441,8 +413,8 @@ namespace HomeWork11.ViewModel
         {
             ObservableCollection<Departament> departaments = Departament.AllDepartaments;
             var selectedDepartaments = from d in departaments
-                                where d.NameDepartament == nameSelectedDepartament
-                                select d;
+                                       where d.NameDepartament == nameSelectedDepartament
+                                       select d;
             int i = -1;
             foreach (var item in selectedDepartaments)
             {
@@ -464,5 +436,53 @@ namespace HomeWork11.ViewModel
         #endregion
 
 
+        private void GetAllDepart(ObservableCollection<Departament> TreeViewDepart, Departament NewDep)
+        {
+            if (NewDep.DepartamentParentId == -1)
+            {
+                TreeViewDepart.Add(NewDep);
+            }
+            foreach (var item in TreeViewDepart)
+            {
+                if (NewDep.DepartamentParentId == item.Id)
+                {
+                    if (item.Departaments == null) item.Departaments = new ObservableCollection<Departament>();
+                    item.Departaments.Add(NewDep);
+                    //return TreeViewDepart;
+                }
+                else if(item.Departaments != null)
+                {
+                    //item.Departaments = GetAllDepart(item.Departaments, NewDep);
+                    GetAllDepart(item.Departaments, NewDep);
+                }
+                else
+                {
+                    //return TreeViewDepart;
+                    return;
+                }
+            }
+
+            //return TreeViewDepart;
+        }
+        private void DeleteDepart(ObservableCollection<Departament> TreeViewDepart, Departament NewDep)
+        {
+            foreach (var item in TreeViewDepart)
+            {
+                if(item == NewDep)
+                {
+                    TreeViewDepart.Remove(item);
+                    return;
+                }
+                else if(item.Departaments != null)
+                {
+                    DeleteDepart(item.Departaments, NewDep);
+                }
+            }
+
+
+        }
+
+
     }
+
 }
