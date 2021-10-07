@@ -68,11 +68,17 @@
                 <TextBlock Text="Выбранный департамент" FontSize="16" HorizontalAlignment="Center"  />
                 <TextBlock Text="Имя департаента" />
                 <TextBox Text="{Binding NameDepartament, UpdateSourceTrigger=PropertyChanged}" />
-                <!--<TextBlock Text="Id родительского департамента" />
-            <TextBox Text="{Binding DepartamentParentId, UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock Text="Id департаента" />
-            <TextBox Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" />-->
+                <!--<TextBlock Text="Id родительского департамента" />-->
+                <!--<TextBox Text="{Binding DepartamentParentId, UpdateSourceTrigger=PropertyChanged}" />-->
+                <!--<TextBlock Text="Id департаента" />-->
+                <!--<TextBox Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}" />-->
+                <TextBlock Text="Менеджер департамента" />
+                <TextBox Text="{Binding Manager, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+
+            <ComboBox ItemsSource="{Binding AllNameManagers}" SelectedItem="{Binding SelectedNameManager}"/>
+            <Button Command="{Binding AddManagerToDepart}" >Добавить/Заменить</Button>
+
             <StackPanel DataContext="{Binding SelectedWorker}" Margin="0,30,0,0">
                 <TextBlock Text="Выбранный сотрудник" FontSize="16" HorizontalAlignment="Center" />
                 <TextBlock Text="Имя сотрудника" />

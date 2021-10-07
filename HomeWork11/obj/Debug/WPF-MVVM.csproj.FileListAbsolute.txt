@@ -7,7 +7,6 @@ C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\bin\Debug\System.Window
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\bin\Debug\System.Windows.Interactivity.xml
-C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\obj\Debug\WPF-MVVM.csprojAssemblyReference.cache
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\obj\Debug\View\AddDepartament.g.cs
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\obj\Debug\MainWindow.g.cs
 C:\Users\Ксения\source\repos\HomeWork11\HomeWork11\obj\Debug\App.g.cs

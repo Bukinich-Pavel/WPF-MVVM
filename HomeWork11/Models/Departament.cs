@@ -9,16 +9,23 @@ using System.Threading.Tasks;
 
 namespace HomeWork11
 {
-    public class Departament
+    class Departament
     {
         #region Статические поля
+
         public static int IdMax = 0;
         public static ObservableCollection<string> NameAllDepartaments = new ObservableCollection<string>();
         public static ObservableCollection<Departament> AllDepartaments = new ObservableCollection<Departament>();
+
         #endregion
+
 
         #region Статические методы
 
+        /// <summary>
+        /// Дабвить департамент в стат поля 
+        /// </summary>
+        /// <param name="dp"></param>
         public static void SetDepartament(Departament dp)
         {
             AllDepartaments.Add(dp);
@@ -31,6 +38,10 @@ namespace HomeWork11
             }
         }
 
+        /// <summary>
+        /// Сохранения максимального имеющегося Id среди всех департаментов
+        /// </summary>
+        /// <param name="dp"></param>
         private static void SetMaxId(Departament dp)
         {
             IdMax = IdMax < dp.Id ? dp.Id : IdMax;
@@ -57,7 +68,7 @@ namespace HomeWork11
 
         #endregion
 
-
+        
         public Departament(int id, string nameDepartament, int departamentParentId)
         {
             Id = id;
@@ -66,13 +77,24 @@ namespace HomeWork11
             
         }
 
+
+        #region Свойства
+
         public int Id { get; set; }
-
         public string NameDepartament { get; set; }
-
-        public int ManagerId { get; set; }
-
         public int DepartamentParentId { get; set; }
+
+
+        public string manager;
+        public string Manager
+        {
+            get { return manager; }
+            set
+            {
+                manager = value;
+                OnPropertyChanged("Manager");
+            }
+        }
 
 
         private ObservableCollection<Departament> departaments;
@@ -87,6 +109,9 @@ namespace HomeWork11
             }
         }
 
+        #endregion
+
+
 
         #region реализация INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -95,7 +120,6 @@ namespace HomeWork11
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
         #endregion
-
 
     }
 }

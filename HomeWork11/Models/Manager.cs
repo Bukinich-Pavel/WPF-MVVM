@@ -14,6 +14,13 @@ namespace HomeWork11
 {
     class Manager : Worker
     {
+        public static ObservableCollection<Manager> AllManagers = new ObservableCollection<Manager>();
+        public static void SetAllManagers(Manager manager)
+        {
+            AllManagers.Add(manager);
+        }
+
+
         public override string Position
         {
             get
@@ -50,7 +57,6 @@ namespace HomeWork11
                 }
             }
         }
-
         private void GetSalaryAllDepartament(Departament departament)
         {
             ObservableCollection<Worker> Workers = ApplicationViewModel.Workers; //+
