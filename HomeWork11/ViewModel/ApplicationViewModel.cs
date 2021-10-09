@@ -74,13 +74,15 @@ namespace HomeWork11.ViewModel
         }
 
 
+        /// <summary>
+        /// коллекция всех сотрудников
+        /// </summary>
         public static ObservableCollection<Worker> Workers { get; set; }
-        public ObservableCollection<Intern> Interns { get; set; }
-        public ObservableCollection<Specialist> Specialists { get; set; }
-        public ObservableCollection<Manager> Managers { get; set; }
 
 
-        // имена менеджеров
+        /// <summary>
+        ///  имена менеджеров
+        /// </summary>
         private ObservableCollection<string> allNameManagers;
         public ObservableCollection<string> AllNameManagers
         {
@@ -94,7 +96,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // коллекция департаентов TreeView
+        /// <summary>
+        ///  коллекция департаентов TreeView
+        /// </summary>
         private ObservableCollection<Departament> departamentsTreeView;
         public ObservableCollection<Departament> DepartamentsTreeView
         {
@@ -108,7 +112,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // сотрудники отображенные в ListBox
+        /// <summary>
+        ///  сотрудники отображенные в ListBox
+        /// </summary>
         private ObservableCollection<Worker> workersView;
         public ObservableCollection<Worker> WorkersView
         {
@@ -124,7 +130,9 @@ namespace HomeWork11.ViewModel
 
         #region Команды
 
-        // отобразить всех сотрудников
+        /// <summary>
+        ///  отобразить всех сотрудников
+        /// </summary>
         private RelayCommand viewParentDepartament;
         public RelayCommand ViewParentDepartament
         {
@@ -138,7 +146,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // команда добавления департамента
+        /// <summary>
+        ///  команда добавления департамента
+        /// </summary>
         private RelayCommand addDepartament;
         public RelayCommand AddDepartament
         {
@@ -180,7 +190,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // команда добавления сотрудника
+        /// <summary>
+        ///  команда добавления сотрудника
+        /// </summary>
         private RelayCommand addWorker;
         public RelayCommand AddWorker
         {
@@ -223,6 +235,7 @@ namespace HomeWork11.ViewModel
                                     NameWorker = nameNewWorker
                                 };
                                 Workers.Add(manager);
+                                if (manager.DepartamentId == SelectedDepartament.Id) WorkersView.Add(manager);
                                 Manager.SetAllManagers(manager);
                                 break;
                             case "Специалист":
@@ -238,6 +251,7 @@ namespace HomeWork11.ViewModel
                                     CostOfAnHour = priceHour
                                 };
                                 Workers.Add(specialist);
+                                if (specialist.DepartamentId == SelectedDepartament.Id) WorkersView.Add(specialist);
                                 break;
                             case "Стажер":
                                 var r = addWorker.salary.Text;
@@ -250,6 +264,7 @@ namespace HomeWork11.ViewModel
                                     Salary = salary
                                 };
                                 Workers.Add(intern);
+                                if (intern.DepartamentId == SelectedDepartament.Id) WorkersView.Add(intern);
                                 break;
                         }
 
@@ -267,7 +282,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // команда добавления менеджера в департамент
+        /// <summary>
+        /// команда добавления менеджера в департамент
+        /// </summary>
         private RelayCommand addManagerToDepart;
         public RelayCommand AddManagerToDepart
         {
@@ -281,7 +298,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // команда удаления департамента
+        /// <summary>
+        ///  команда удаления департамента
+        /// </summary>
         private RelayCommand removeDepartament;
         public RelayCommand RemoveDepartament
         {
@@ -303,7 +322,9 @@ namespace HomeWork11.ViewModel
         }
 
 
-        // команда удаления сотрудника
+        /// <summary>
+        ///  команда удаления сотрудника
+        /// </summary>
         private RelayCommand removeWorker;
         public RelayCommand RemoveWorker
         {
@@ -346,10 +367,11 @@ namespace HomeWork11.ViewModel
         //конструктор
         public ApplicationViewModel()
         {
-            if (File.Exists("departaments.json") && File.Exists("interns.json"))
+            if (File.Exists("departamentsTreeView.json") && File.Exists("interns.json") && File.Exists("managers.json") && File.Exists("specialists.json"))
             {
-                string str = File.ReadAllText("departamentsTreeView.json");
+                string str = File.ReadAllText("departamentsTreeView.json"); // считывание всех департаментов из json и десериализация
                 DepartamentsTreeView = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(str);
+
 
                 // Добавляем все департаменты из departamentsTreeView.json в стат поля Departament
                 if (DepartamentsTreeView != null)
@@ -360,18 +382,22 @@ namespace HomeWork11.ViewModel
                     }
                 }
 
-
+                
                 Workers = new ObservableCollection<Worker> { };
-                str = File.ReadAllText("interns.json");
-                Interns = JsonConvert.DeserializeObject<ObservableCollection<Intern>>(str);
+                
+                str = File.ReadAllText("interns.json"); // считывание всех стажеров из json и десериализация
+                ObservableCollection<Intern> Interns = JsonConvert.DeserializeObject<ObservableCollection<Intern>>(str);
+                // добавление всех стажеров в общую коллекцию Worker
                 foreach (var item in Interns)
                 {
                     Workers.Add(item);
                     Worker.GetMaxId(item);
                 }
 
-                str = File.ReadAllText("managers.json");
-                Managers = JsonConvert.DeserializeObject<ObservableCollection<Manager>>(str);
+                
+                str = File.ReadAllText("managers.json"); // считывание всех менеджеров из json и десериализация
+                ObservableCollection<Manager> Managers = JsonConvert.DeserializeObject<ObservableCollection<Manager>>(str);
+                // добавление всех менеджеров в общую коллекцию Worker
                 foreach (var item in Managers)
                 {
                     Manager.SetAllManagers(item);
@@ -379,14 +405,17 @@ namespace HomeWork11.ViewModel
                     Worker.GetMaxId(item);
                 }
 
-                str = File.ReadAllText("specialists.json");
-                Specialists = JsonConvert.DeserializeObject<ObservableCollection<Specialist>>(str);
+                
+                str = File.ReadAllText("specialists.json"); // считывание всех специалистов из json и десериализация
+                ObservableCollection<Specialist> Specialists = JsonConvert.DeserializeObject<ObservableCollection<Specialist>>(str);
+                // добавление всех специалистов в общую коллекцию Worker
                 foreach (var item in Specialists)
                 {
                     Workers.Add(item);
                     Worker.GetMaxId(item);
                 }
 
+                // отображение всех сотрудников при запуске приложения
                 WorkersView = Workers;
             }
             else
@@ -400,9 +429,9 @@ namespace HomeWork11.ViewModel
         //деструктор
         ~ApplicationViewModel()
         {
-            Interns = new ObservableCollection<Intern> { };
-            Managers = new ObservableCollection<Manager> { };
-            Specialists = new ObservableCollection<Specialist> { };
+            ObservableCollection<Intern> Interns = new ObservableCollection<Intern>();
+            ObservableCollection<Manager> Managers = new ObservableCollection<Manager>();
+            ObservableCollection<Specialist> Specialists = new ObservableCollection<Specialist>();
 
             foreach (var item in Workers)
             {
@@ -427,7 +456,6 @@ namespace HomeWork11.ViewModel
 
             json = JsonConvert.SerializeObject(Managers);
             File.WriteAllText("managers.json", json);
-
 
             json = JsonConvert.SerializeObject(DepartamentsTreeView);
             File.WriteAllText("departamentsTreeView.json", json);
