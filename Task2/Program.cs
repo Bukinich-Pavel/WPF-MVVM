@@ -23,12 +23,10 @@ namespace Task2
         void I2.M() { Console.WriteLine("I2.M()"); }
     }
 
-    class B : A, I1, I2
+    class B : A
     {
         public new void M() { Console.WriteLine("B.M()"); }
-        void I1.M() { Console.WriteLine("I1.M()"); }
-        void I2.M() { Console.WriteLine("I2.M()"); }
-
+        
     }
 
     class Program
