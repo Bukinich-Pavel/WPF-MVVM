@@ -361,6 +361,8 @@ namespace HomeWork11.ViewModel
             }
         }
 
+
+
         #endregion
 
 
@@ -543,6 +545,20 @@ namespace HomeWork11.ViewModel
                 if (item == NewDep)
                 {
                     TreeViewDepart.Remove(item);
+                    var del = new ObservableCollection<Worker>();
+                    foreach (var worker in Workers)
+                    {
+                        if(worker.DepartamentId == item.Id)
+                        {
+                            del.Add(worker);
+                        }
+                    }
+                    var r = Workers.Except(del);
+                    Workers = new ObservableCollection<Worker>();
+                    foreach (var ren in r)
+                    {
+                        Workers.Add(ren);
+                    }
                     return;
                 }
                 else if (item.Departaments != null)

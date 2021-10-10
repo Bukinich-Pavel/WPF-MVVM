@@ -39,7 +39,7 @@
             <Button Command="{Binding AddDepartament}" Margin="10" FontSize="16">Добавить департамент</Button>
             <Button Command="{Binding RemoveDepartament}" CommandParameter="{Binding SelectedDepartament}" Margin="10" FontSize="16">Удалить департамент</Button>
         </WrapPanel>
-        
+
         <GridSplitter Grid.Column="1"
                       Grid.Row="0"
                       Width="3"
@@ -47,15 +47,22 @@
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Stretch" />
 
-        <ListBox Grid.Column="2" Grid.Row="0" ItemsSource="{Binding WorkersView}" SelectedItem="{Binding SelectedWorker}">
-            <ListBox.ItemTemplate>
+
+        <ListView Grid.Column="2" Grid.Row="0" FontSize="18" ItemsSource="{Binding WorkersView}" SelectedItem="{Binding SelectedWorker}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=NameWorker}" />
+                    <GridViewColumn Header="Salary" DisplayMemberBinding="{Binding Path=Salary}" />
+                </GridView>
+            </ListView.View>
+            <!--<ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
                         <TextBlock FontSize="18" Text="{Binding Path=NameWorker}" />
                     </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ListView.ItemTemplate>-->
+        </ListView>
 
         <WrapPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="20">
             <Button Command="{Binding ViewParentDepartament}" Margin="10" FontSize="16">Все сотрудники</Button>
