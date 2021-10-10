@@ -559,7 +559,8 @@ namespace HomeWork11.ViewModel
                     {
                         Workers.Add(ren);
                     }
-                    return;
+                    return; 
+
                 }
                 else if (item.Departaments != null)
                 {
